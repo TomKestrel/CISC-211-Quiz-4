@@ -1,0 +1,46 @@
+; Quiz 4
+; by Wootark Kim
+
+; Task: Assign three integers to the variables x, y, and z and pass on the function name of your choice. 
+;	The function task is to add three variables and assign the result to the 'result' variable. 
+;	Ensure the function returns the result variable and deallocates the memory used by the function when it returns.
+
+section .text
+	global _start
+
+_start:
+	xor eax, eax				; clearing out all the registers first just in case
+	xor ebx, ebx
+	xor ecx, ecx
+	xor edx, edx
+
+	call add_Function
+
+	; instructions for shutting down
+	mov eax, 1				
+	int 0x80				
+
+add_Function:
+	; Prologue
+	push ebp				
+	mov ebp, esp
+
+	mov eax, [x]
+	mov ebx, [y]
+	mov ecx, [z]
+
+	add eax, ebx		; add y to x
+	add eax, ecx		; then add z as well
+	mov [result], eax
+
+	; Epilogue
+	leave 
+	ret
+
+section .data
+	x dd 5				; a variable to hold a randon pre-defined number 
+	y dd 10				; a variable to hold a randon pre-defined number 
+	z dd 25				; a variable to hold a randon pre-defined number 
+
+section .bss
+	result resb 1
